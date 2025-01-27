@@ -19,6 +19,7 @@ export async function createGallery(data: any){
                 description: data.description,
                 cover: data.cover,
                 code,
+                visibility: data.visibility,
                 user: {
                     connect: {
                         id: user.id

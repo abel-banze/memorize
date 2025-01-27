@@ -54,8 +54,8 @@ model User {
   image            String?
   role             String?        @default("user")
   status           String?        @default("active")
-  galleries        Gallery[]      // Galleries owned by the user
-  memberOfGalleries GalleryMember[] // Galleries where the user is a member
+  galleries        Gallery[]      
+  memberOfGalleries GalleryMember[]
 }
 
 model Gallery {
@@ -64,10 +64,15 @@ model Gallery {
   code        String
   description String?
   cover       String
+  visibility  String         @default("private")  // Values: "public" or "private"
+  allowGuests Boolean        @default(false)      // Whether non-members can view public galleries
   userId      String          @db.ObjectId
   user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   images      Image[]
-  members     GalleryMember[] // New field for gallery members
+  members     GalleryMember[]
+  folders     Folder[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
 }
 
 model GalleryMember {
@@ -82,6 +87,19 @@ model GalleryMember {
   @@unique([userId, galleryId])
 }
 
+model Folder {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  createdAt   DateTime  @default(now())
+  galleryId   String    @db.ObjectId
+  gallery     Gallery   @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+  images      Image[]
+  parentId    String?   @db.ObjectId
+  parent      Folder?   @relation("NestedFolders", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  subfolders  Folder[]  @relation("NestedFolders")
+}
+
 model Image {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String?
@@ -89,4 +107,6 @@ model Image {
   url         String
   galleryId   String   @db.ObjectId
   gallery     Gallery  @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+  folderId    String?  @db.ObjectId
+  folder      Folder?  @relation(fields: [folderId], references: [id])
 }

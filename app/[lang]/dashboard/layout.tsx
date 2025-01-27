@@ -14,7 +14,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <SidebarInset>
             <header className="flex items-center justify-between py-4 px-4">
               <SidebarTrigger className="block lg:hidden" />
-
               <Link href="/pt/dashboard/gallery/new" passHref>
                 <Button>
                   Criar galeria

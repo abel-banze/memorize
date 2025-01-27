@@ -6,6 +6,15 @@ import { Label } from "@/components/ui/label"
 import { uploadFileS3 } from "@/lib/uploadToS3"
 import { createGallery } from "@/actions/create"
 import Swal from 'sweetalert2'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+  
+
 
 export default function GalleryPage(){
 
@@ -13,6 +22,7 @@ export default function GalleryPage(){
         const cover = form.get('cover') as File;
         const  name = form.get('name') as string;
         const  description = form.get('description') as string;
+        const visibility = form.get('visibility') as string;
 
         let fileName = "";
 
@@ -24,7 +34,8 @@ export default function GalleryPage(){
         const data = {
             name,
             description,
-            cover: fileName
+            cover: fileName,
+            visibility
         }
 
         const promise = await createGallery(data)
@@ -64,6 +75,21 @@ export default function GalleryPage(){
                     <div className="space-y-2">
                         <Label htmlFor="cover">Imagem de capa</Label>
                         <Input id="cover" type="file" name="cover" placeholder="Imagem de capa" required />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2">
+                        <div className="flex items-center gap-2">
+                            <Label htmlFor="visibility">Visibilidade</Label>
+                            <Select name="visibility" defaultValue="private">
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Visibilidade" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="private">Privado</SelectItem>
+                                    <SelectItem value="public">Público</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
                     <SubmitButton label="Criar galeria" className="w-full" />
                 </form>

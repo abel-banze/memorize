@@ -182,11 +182,55 @@ export async function getGalleryImages(id: string){
                 code: id
             },
             include: {
-                images: true
+                images: true,
+                folders: true
             }
         });
 
         return images;
+
+    }catch(err){
+        return null;
+    }
+}
+
+export async function getMyGalleries(){
+    try{
+
+        const user = await getLoggedUser();
+        if(!user) return null;
+
+        const promise = await db.gallery.findMany({
+            where: {
+                userId: user.id
+            },
+            include: {
+                members: true,
+                images: true,
+                folders: true
+            }
+        });
+        
+        return promise;
+
+    }catch(err){
+        return null;
+    }
+}
+
+export async function getGalleryFolders(id: string){
+    try{
+
+        const folders = await db.gallery.findFirst({
+            where: {
+                code: id
+            },
+            include: {
+                folders: true
+            }
+        });
+
+        return folders;
 
     }catch(err){
         return null;

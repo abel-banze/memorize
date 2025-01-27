@@ -25,11 +25,13 @@ export default async function Files({ params } : {
                 <h2 className="text-xl font-semibold">Fotos da galeria de {gallery.name}</h2>
                 <div className="w-full flex flex-row items-center flex-wrap gap-2">
                     <Badge>
-                        Entrada
+                        Todas
                     </Badge>
-                    <Badge variant={"outline"}>
-                        Saída
-                    </Badge>
+                    { gallery.folders.map((folder: any) => (
+                        <Badge key={folder.id} variant={"outline"}>
+                            { folder.name }
+                        </Badge>
+                    ))}
                 </div>
 
                 <div className="w-full grid grid-cols-2 lg:grid-cols-5 gap-2">

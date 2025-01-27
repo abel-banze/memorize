@@ -59,11 +59,11 @@ const data = {
       items: [
         {
           title: "Todas galerias",
-          url: "#",
+          url: "/dashboard",
         },
         {
           title: "Criar galeria",
-          url: "#",
+          url: "/dashboard/gallery/new",
         }
         
       ],
