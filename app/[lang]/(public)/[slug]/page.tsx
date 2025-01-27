@@ -12,7 +12,7 @@ export default async function ImagePage({ params } : {
       <div className="relative h-screen">
         <Image src="/couple.png" alt="Main image" fill className="object-cover" />
       </div>
-      <div className="absolute w-full pb-10 h-3/5 bottom-0 flex flex-row items-end pt-10 gap-x-4 justify-center bg-gradient-to-t from-white to-transparent">
+      <div className="absolute w-full pb-20 h-[50vh] bottom-0 flex flex-row items-end pt-10 gap-x-4 justify-center bg-gradient-to-t from-white to-transparent">
         <Link
           href={`/${slug}/files`}
           passHref
