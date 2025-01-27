@@ -9,7 +9,7 @@ export default async function ImagePage({ params } : {
     const slug = (await params).slug
 
     const gallery = await getGalleryById(slug)
-    
+
     if(!gallery) return <div>Gallery not found</div>
 
     return (
@@ -17,7 +17,7 @@ export default async function ImagePage({ params } : {
         <div className="relative h-screen">
           <Image src={gallery.cover} alt="Main image" fill className="object-cover" />
         </div>
-        <div className="absolute w-full pb-20 h-[50vh] bottom-0 flex flex-row items-end pt-10 gap-x-4 justify-center bg-gradient-to-t from-white to-transparent">
+        <div className="absolute w-full pb-20 h-[55vh] bottom-0 flex flex-row items-end pt-10 gap-x-4 justify-center bg-gradient-to-t from-white to-transparent">
           <Link
             href={`/${slug}/files`}
             passHref
