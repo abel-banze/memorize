@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URL")
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id                String         @id @default(auto()) @map("_id") @db.ObjectId
+  accounts          Account[]
+  sessions          Session[]
+  firstName         String?
+  lastName          String?
+  name              String?
+  contact           String?
+  bio              String?
+  cover            String?
+  email            String?        @unique
+  verified         Boolean        @default(false)
+  emailVerified    DateTime?
+  hashPass         String?
+  createAt         DateTime       @default(now())
+  googleId         String?
+  githubId         String?
+  linkedinId       String?
+  image            String?
+  role             String?        @default("user")
+  status           String?        @default("active")
+  galleries        Gallery[]      // Galleries owned by the user
+  memberOfGalleries GalleryMember[] // Galleries where the user is a member
+}
+
+model Gallery {
+  id          String          @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  code        String
+  description String?
+  cover       String
+  userId      String          @db.ObjectId
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  images      Image[]
+  members     GalleryMember[] // New field for gallery members
+}
+
+model GalleryMember {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  galleryId String   @db.ObjectId
+  role      String   @default("viewer") 
+  joinedAt  DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gallery   Gallery  @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, galleryId])
+}
+
+model Image {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String?
+  description String?
+  url         String
+  galleryId   String   @db.ObjectId
+  gallery     Gallery  @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+}
