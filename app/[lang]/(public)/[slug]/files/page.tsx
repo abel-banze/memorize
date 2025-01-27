@@ -1,4 +1,5 @@
 import { getGalleryImages } from "@/actions/show"
+import PhotoViewer from "@/components/PhotoViewer"
 import { Badge } from "@/components/ui/badge"
 
 
@@ -20,6 +21,8 @@ export default async function Files({ params } : {
     return (
         <>
             <div className="w-full flex flex-col gap-4 p-5">
+
+                <h2 className="text-xl font-semibold">Fotos da galeria de {gallery.name}</h2>
                 <div className="w-full flex flex-row items-center flex-wrap gap-2">
                     <Badge>
                         Entrada
@@ -27,16 +30,13 @@ export default async function Files({ params } : {
                     <Badge variant={"outline"}>
                         Saída
                     </Badge>
-                    
                 </div>
 
                 <div className="w-full grid grid-cols-2 lg:grid-cols-5 gap-2">
 
                     { gallery.images.map((image: any) => {
                         return (
-                            <div className="w-full rounded-lg h-40 border border-slate-100 ">
-                                <img src={image.url} alt="Imagem" className="w-full h-full object-cover rounded-lg" />
-                            </div>
+                            <PhotoViewer key={image.id} image={image} />
                         )
                     }) }
                     
