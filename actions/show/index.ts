@@ -173,3 +173,22 @@ export async function getGalleryById(id: string){
         return null;
     }
 }
+
+export async function getGalleryImages(id: string){
+    try{
+
+        const images = await db.gallery.findFirst({
+            where: {
+                code: id
+            },
+            include: {
+                images: true
+            }
+        });
+
+        return images;
+
+    }catch(err){
+        return null;
+    }
+}

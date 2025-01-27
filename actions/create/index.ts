@@ -46,3 +46,38 @@ async function generateRandomCode() {
     }
     return code;
 }
+
+export async function createImage(data: any){
+    try{
+
+        const user = await getLoggedUser();
+        if(!user) return { status: 401, message: "Usuário não logado" };
+
+        const gallery = await db.gallery.findFirst({
+            where: {
+                code: data.gallery
+            }
+        });
+
+        if(!gallery) return { status: 404, message: "Galeria não encontrada" };
+
+        const promise = await db.image.create({
+            data: {
+                url: data.url,
+                gallery: {
+                    connect: {
+                        id: gallery.id
+                    }
+                }
+            }
+        });
+
+        revalidatePath('/[lang]', 'layout')
+
+        return { status: 200, message: "success" }
+
+    }catch(err){
+        console.log(err)
+        return { status: 500, message: "Erro ao criar imagem" }
+    }
+}

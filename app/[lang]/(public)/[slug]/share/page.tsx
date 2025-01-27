@@ -4,9 +4,15 @@ import { useCallback, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { Upload } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useParams } from 'next/navigation'
+import { uploadFileS3 } from "@/lib/uploadToS3"
+import { createImage } from "@/actions/create"
+
 
 export default function ImageUploadPage() {
   const [files, setFiles] = useState<File[]>([])
+  const params = useParams<{ slug: string }>()
+  const [loading, setLoading] = useState(false)
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFiles(acceptedFiles)
@@ -19,6 +25,24 @@ export default function ImageUploadPage() {
     },
     multiple: true,
   })
+
+  const submit = async () => {
+    setLoading(true)
+    if(files && files.length > 0){
+      for(let i=0; i<files.length; i++){
+        const file = files[i];
+
+        const fileName = await uploadFileS3(file)
+
+        const promise = await createImage({
+          url: fileName.file_url,
+          gallery: params.slug
+        })
+      }
+    }
+    setLoading(false)
+  }
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
@@ -44,19 +68,19 @@ export default function ImageUploadPage() {
           <div className="mt-4">
             <h2 className="text-lg font-semibold mb-2">Arquivos selecionados:</h2>
             <ul className="list-disc pl-5">
-              {files.map((file) => (
-                <li key={file.name} className="text-sm text-gray-600">
-                  {file.name}
-                </li>
-              ))}
+              <li> { files.length.toLocaleString() } ficheiros selecionados. </li>
             </ul>
           </div>
         )}
-        <Button className="w-full mt-4">
-            Partilhar imagens
+        <Button 
+          className="w-full mt-4"
+          onClick={submit}
+          type="button"
+          disabled={files.length === 0 || loading}
+        >
+          {loading ? "A carregar..." : "Partilhar imagens"}
         </Button>
       </div>
     </div>
   )
 }
-
