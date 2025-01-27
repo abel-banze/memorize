@@ -7,7 +7,9 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-  } from "@/components/ui/dialog"
+} from "@/components/ui/dialog"
+import { Download } from "lucide-react"
+
 
   
 export default function PhotoViewer({ image } : { image: any}){
@@ -20,7 +22,7 @@ export default function PhotoViewer({ image } : { image: any}){
                     </div>
                 </DialogTrigger>
                 <DialogContent>
-                    <DialogTitle>Are you absolutely sure?</DialogTitle>
+                    <DialogTitle> <Download /> </DialogTitle>
                     <DialogDescription>
                         <img src={image.url} alt="Imagem" className="w-full max-h-4/5 object-cover rounded-lg" />
                     </DialogDescription>
