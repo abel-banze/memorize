@@ -2,7 +2,7 @@
 
 import { db } from "@/actions/config";
 import { revalidatePath } from "next/cache";
-import { getLoggedUser } from "../show";
+import { getGalleryById, getLoggedUser } from "../show";
 
 
 export async function createGallery(data: any){
@@ -80,5 +80,33 @@ export async function createImage(data: any){
     }catch(err){
         console.log(err)
         return { status: 500, message: "Erro ao criar imagem" }
+    }
+}
+
+export async function createMessage(data: any){
+    try{
+
+        const gallery = await getGalleryById(data.gallery)
+
+        if(!gallery) return { status: 404, message: 'failed' }
+
+        const message = await db.message.create({
+            data: {
+                name: data.name,
+                content: data.content,
+                gallery: {
+                    connect: {
+                        id: gallery.id
+                    }
+                }
+            }
+        });
+
+        if(!message) return { status: 500, message: 'failed' }
+
+        return { status: 200, message: 'success' }
+
+    }catch(err){
+        return { status: 500, message: 'failed' }
     }
 }
