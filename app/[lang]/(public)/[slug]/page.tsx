@@ -17,7 +17,7 @@ export default async function ImagePage({ params } : {
         <div className="relative h-screen">
           <Image src={gallery.cover} alt="Main image" fill className="object-cover object-start" />
         </div>
-        <div className="absolute w-full pb-[15vh] h-[60vh] bottom-0 flex flex-row items-end pt-10 gap-x-4 justify-center bg-gradient-to-t from-white to-transparent">
+        <div className="absolute w-full pb-[20vh] h-[60vh] bottom-0 flex flex-row items-end pt-10 gap-x-4 justify-center bg-gradient-to-t from-white to-transparent">
           <Link
             href={`/${slug}/files`}
             passHref
