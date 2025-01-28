@@ -80,7 +80,7 @@ export default function GalleryPage(){
                     <div className="grid grid-cols-2 gap-2">
                         <div className="flex items-center gap-2">
                             <Label htmlFor="visibility">Visibilidade</Label>
-                            <Select name="visibility" defaultValue="private">
+                            <Select name="visibility" defaultValue="public">
                                 <SelectTrigger>
                                     <SelectValue placeholder="Visibilidade" />
                                 </SelectTrigger>

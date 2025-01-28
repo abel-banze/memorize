@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default async function DashboardPage() {
   const galleries = await getMyGalleries();
-
+  
   return (
     <>
       <div className="w-full flex flex-col gap-4 p-5">
@@ -26,11 +26,11 @@ export default async function DashboardPage() {
                     </p>
                     <p className="text-sm text-muted-foreground flex items-center gap-2">
                       <Image size={20} />
-                      { gallery.images.length } fotos
+                      { gallery.images.length.toLocaleString() } fotos
                     </p>
                     <p className="text-sm text-muted-foreground flex items-center gap-2">
                       <MessageSquareHeart size={20} />
-                      20 mensagens
+                      { gallery.messages.length.toLocaleString() } mensagens
                     </p>
                   </div>
                 </div>

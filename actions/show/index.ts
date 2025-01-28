@@ -164,6 +164,11 @@ export async function getGalleryById(id: string){
         const gallery = await db.gallery.findFirst({
             where: {
                 code: id
+            },
+            include: {
+                images: true,
+                folders: true,
+                messages: true
             }
         });
 
@@ -207,7 +212,8 @@ export async function getMyGalleries(){
             include: {
                 members: true,
                 images: true,
-                folders: true
+                folders: true,
+                messages: true
             }
         });
         

@@ -28,7 +28,7 @@ export default function Header( { user } : any ) {
   ]
 
   return (
-    <header className="py-2 px-5 pt-4 sm:px-3 sticky z-[999] top-0 lg:px-8 border-b text-sm bg-white/10 dark:bg-black/10 backdrop-blur">
+    <header className="py-2 px-5 pt-4 sm:px-3 sticky z-[999] top-0 lg:px-8 border-b text-sm bg-white/80 dark:bg-black/10 backdrop-blur">
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
           <Link href={`/${language}`} className="flex items-center">

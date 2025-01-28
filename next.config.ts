@@ -27,7 +27,13 @@ const nextConfig = {
               hostname: 'workdeeal-recrutador.s3.eu-north-1.amazonaws.com',
               port: '',
               pathname: '**'
-          }
+          },
+          {
+            protocol: 'https',
+            hostname: 'images.unsplash.com',
+            port: '',
+            pathname: '**'
+        },
       ]
   }
 };
