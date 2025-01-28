@@ -19,7 +19,7 @@ export default function Hero(){
                         <FloatingImages />
                         <FadeDiv>
                             <Link href="/pt/dashboard" passHref>
-                                <Button  effect="expandIcon" icon={ArrowRightIcon} iconPlacement="right" >
+                                <Button size="lg" className="rounded-xl" effect="expandIcon" icon={ArrowRightIcon} iconPlacement="right" >
                                     Comece agora
                                 </Button>
                             </Link>

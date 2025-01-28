@@ -19,7 +19,7 @@ export default function Header( { user } : any ) {
 
   const links = [
     { path: `/${locale}`, label: "Início" },
-    { path: `/${locale}/#services`, label: "Serviços" },
+    // { path: `/${locale}/#services`, label: "Serviços" },
     { path: `/${locale}/contact`, label: "Contacto" },
     // { path: `/${locale}/contests`, label: lang.public.home.header.contests },
     // { path: `/${locale}/requests`, label: lang.public.home.header.requests },
