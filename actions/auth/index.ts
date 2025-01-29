@@ -57,31 +57,32 @@ export async function login({email, password, type, redirect} : {
 }){
     try{
 
-        if(!validator.isEmail(email!)) return { status: 501, message: 'Email inválido.' };
-
-        const check = await db.user.findUnique({
-        where: {
-            email: email
-        }
-        });
-
-        if(check?.status === 'blocked') return { status: 501, message: 'Este usuário está bloqueado.' }
-        
-        if(!check) return { status: 501, message: 'Usuário não encontrada.' };
-
-        const isCorrect = await bcrypt.compare(
-        password!,
-        check.hashPass!
-        );
-
-        if (!isCorrect) return { status: 501, message: 'Credenciais incorrectas.' };
-        
         if(type === 'credentials'){
-            await signIn('credentials', {
+            if(!validator.isEmail(email!)) return { status: 501, message: 'Email inválido.' };
+
+            const check = await db.user.findUnique({
+            where: {
+                email: email
+            }
+            });
+    
+            if(check?.status === 'blocked') return { status: 501, message: 'Este usuário está bloqueado.' }
+            
+            if(!check) return { status: 501, message: 'Usuário não encontrada.' };
+    
+            const isCorrect = await bcrypt.compare(
+            password!,
+            check.hashPass!
+            );
+    
+            if (!isCorrect) return { status: 501, message: 'Credenciais incorrectas.' };
+
+            await signIn(type, {
                 email: email,
                 password: password,
                 redirectTo: '/pt/dashboard'
             })
+
         }else{
             await signIn(type, {
                 redirectTo: '/pt/dashboard'
