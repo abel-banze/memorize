@@ -13,7 +13,7 @@ export default async function DashboardPage() {
         <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-2">
           {  galleries ? (
             galleries.map((gallery: any) => (
-              <Link href={`/dashboard/${gallery.id}`} key={gallery.id} className="w-full flex item-center rounded-xl border border-slate-100 p-4 text-center hover:border-indigo-300">
+              <Link href={`/dashboard/${gallery.code}`} key={gallery.id} className="w-full flex item-center rounded-xl border border-slate-100 p-4 text-center hover:border-indigo-300">
                 <div className="w-4/12 flex items-center justify-center">
                   <img src={gallery.cover} alt="Imagem" className="w-full h-full object-cover rounded-lg" />
                 </div>

@@ -1,15 +1,13 @@
 'use client'
 
 import { useState } from "react"
-import { login } from "@/actions/auth"
 import SubmitButton from "@/components/forms/submit-button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { CircleX } from "lucide-react"
 import SocialSign from "@/components/forms/social-sign"
-
+import { forgot } from "@/actions/auth"
 
 export default function LoginForm() {
   const [message, setMessage] = useState<string | null>(null)
@@ -17,13 +15,10 @@ export default function LoginForm() {
   const submit = async (form: FormData) => {
     const data = {
       email: form.get('email') as string,
-      password: form.get('password') as string,
-      type: 'credentials'
     }
 
-    const promise = await login(data)
-
-    if(promise?.status !== 201 && promise !== undefined) setMessage(promise.message)
+    const promise = await forgot(data)
+    setMessage(promise.message)
 
   }
 
@@ -33,22 +28,19 @@ export default function LoginForm() {
       action={submit}
     >
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-bold">Login</h1>
+        <h1 className="text-2xl font-bold">Recuperar a senha</h1>
         { message ? (
           <>
             <Alert>
-              <CircleX className="h-4 w-4" />
-              <AlertTitle>Upps!</AlertTitle>
               <AlertDescription>
                 { message }
               </AlertDescription>
             </Alert>
-
           </>
         ) : (
           <>
             <p className="text-balance text-sm text-muted-foreground">
-              Insira tuas credenciais para acessar a plataforma
+              Insira e seu email que usou para criar a sua conta
             </p>
           </>
         ) }
@@ -58,19 +50,8 @@ export default function LoginForm() {
           <Label htmlFor="email">Email</Label>
           <Input id="email" type="email" name="email" placeholder="m@example.com" required />
         </div>
-        <div className="grid gap-2">
-          <div className="flex items-center">
-            <Label htmlFor="password">Senha</Label>
-            <Link
-              href="/forgot"
-              className="ml-auto text-sm underline-offset-4 hover:underline"
-            >
-              Esqueceu senha?
-            </Link>
-          </div>
-          <Input id="password" name="password" type="password" required />
-        </div>
-        <SubmitButton label="Login" className="w-full" />
+        
+        <SubmitButton label="Recuperar" className="w-full" />
 
         <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
           <span className="relative z-10 bg-background px-2 text-muted-foreground">
