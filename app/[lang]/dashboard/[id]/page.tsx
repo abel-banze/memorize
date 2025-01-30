@@ -17,9 +17,9 @@ export default async function GalleryDetailsPage({ params } : {
                         <TabsTrigger value="password">Password</TabsTrigger>
                     </TabsList>
                     <TabsContent value="account">
-                        <div className="flex flex-col gap-4">
-                            <InputCopy url={`https://memorize.space/pt/${id}`} />
+                        <div className="flex flex-col gap-4 pt-10">
                             <LinkQRCode url={`https://memorize.space/pt/${id}`} />
+                            <InputCopy url={`https://memorize.space/pt/${id}`} />
                         </div>
                     </TabsContent>
                     <TabsContent value="password">Change your password here.</TabsContent>
