@@ -1,16 +1,20 @@
 'use client'
 
-import React from 'react';
-import { QRCodeSVG } from 'qrcode.react';
+import React, { useRef } from 'react';
+import { QRCodeCanvas } from 'qrcode.react';
 import jsPDF from 'jspdf';
 import { Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-
 export default function LinkQRCode({ url }: { url: string }) {
-    const qrCodeRef = React.useRef(null);
+    const qrCodeRef = useRef<HTMLCanvasElement>(null);
 
     const downloadQRCode = () => {
+        if (!qrCodeRef.current) return;
+        
+        // Convert canvas to data URL
+        const imgData = qrCodeRef.current.toDataURL('image/png');
+        
         // Create a new jsPDF instance
         const pdf = new jsPDF({
             orientation: 'portrait',
@@ -18,48 +22,25 @@ export default function LinkQRCode({ url }: { url: string }) {
             format: 'a4'
         });
 
-        // Get the QR code SVG element
-        const svgElement = qrCodeRef.current;
-        if (!svgElement) return;
-
-        // Convert SVG to canvas
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const svgData = new XMLSerializer().serializeToString(svgElement);
-        const img = new Image();
+        // Add the QR Code image to PDF
+        pdf.addImage(imgData, 'PNG', 10, 10, 50, 50);
+        pdf.setFontSize(16);
+        pdf.text('QR Code for: ' + url, 10, 70);
         
-        img.onload = () => {
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx?.drawImage(img, 0, 0);
-            
-            // Add the image to PDF
-            const imgData = canvas.toDataURL('image/png');
-            pdf.addImage(imgData, 'PNG', 10, 10, 50, 50);
-            
-            // Add some text
-            pdf.setFontSize(16);
-            pdf.text('QR Code for: ' + url, 10, 70);
-            
-            // Save the PDF
-            pdf.save('qr-code.pdf');
-        };
-
-        img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+        // Save the PDF
+        pdf.save('qr-code.pdf');
     };
 
     return (
         <div className="flex flex-col items-center gap-4">
-            <div ref={qrCodeRef}>
-                <QRCodeSVG
-                    value={url}
-                    title={"Title for my QR Code"}
-                    size={128}
-                    bgColor={"#ffffff"}
-                    fgColor={"#000000"}
-                    level={"L"}
-                />
-            </div>
+            <QRCodeCanvas
+                ref={qrCodeRef}
+                value={url}
+                size={128}
+                bgColor={'#ffffff'}
+                fgColor={'#000000'}
+                level={'L'}
+            />
             <Button 
                 onClick={downloadQRCode}
                 className='flex items-center w-full justify-center gap-2'
