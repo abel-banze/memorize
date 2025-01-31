@@ -3,7 +3,9 @@ const locales = ['pt', 'en'];
 export const PUBLIC_ROUTES = [
     '/en/logo-02.png',
     '/en/promo-1.jpg',
-    '/en/promo-2.jpg'
+    '/en/promo-2.jpg',
+    '/pt/pricing',
+    '/en/pricing'
 ]
 
 

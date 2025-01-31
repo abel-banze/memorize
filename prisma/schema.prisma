@@ -56,6 +56,7 @@ model User {
   status           String?        @default("active")
   galleries        Gallery[]      
   memberOfGalleries GalleryMember[]
+  subscriptions    Subscription[]
 }
 
 model Gallery {
@@ -73,6 +74,7 @@ model Gallery {
   folders     Folder[]
   messages    Message[]
   testimonials Testimonial[]
+  subscriptions Subscription[]
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
 }
@@ -132,4 +134,28 @@ model Image {
   gallery     Gallery  @relation(fields: [galleryId], references: [id], onDelete: Cascade)
   folderId    String?  @db.ObjectId
   folder      Folder?  @relation(fields: [folderId], references: [id])
+}
+
+model Plan {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  galleries   Int?
+  options     String[]
+  price       Int
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String   @db.ObjectId
+  plan        Plan     @relation(fields: [planId], references: [id], onDelete: Cascade)
+  planId      String   @db.ObjectId
+  usage       Int      @default(0)
+  galleryId   String   @db.ObjectId
+  gallery     Gallery  @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  status      String   @default("active")
 }

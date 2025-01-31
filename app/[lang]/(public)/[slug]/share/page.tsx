@@ -55,6 +55,10 @@ export default function ImageUploadPage() {
         title: "Upload concluído!",
         text: "Todas as imagens foram enviadas com sucesso.",
       });
+      
+      setUploadProgress(0)
+      setFiles([])
+
     } catch (error) {
       console.error("Erro no upload:", error);
       Swal.fire({

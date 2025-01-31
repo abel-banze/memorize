@@ -19,7 +19,7 @@ export default function Header( { user } : any ) {
 
   const links = [
     { path: `/${locale}`, label: "Início" },
-    // { path: `/${locale}/#services`, label: "Serviços" },
+    { path: `/${locale}/pricing`, label: "Preços" },
     { path: `/${locale}/contact`, label: "Contacto" },
     // { path: `/${locale}/contests`, label: lang.public.home.header.contests },
     // { path: `/${locale}/requests`, label: lang.public.home.header.requests },
@@ -28,8 +28,8 @@ export default function Header( { user } : any ) {
   ]
 
   return (
-    <header className="py-2 px-5 pt-4 sm:px-3 sticky z-[999] top-0 lg:px-8 border-b text-sm bg-white/80 dark:bg-black/10 backdrop-blur">
-      <div className="container mx-auto">
+    <header className="w-full py-2 px-5 pt-4 sm:px-3 sticky z-[999] top-0 lg:px-8 border-b text-sm bg-white/80 dark:bg-black/10 backdrop-blur">
+      <div className="w-full mx-auto">
         <div className="flex items-center justify-between">
           <Link href={`/${language}`} className="flex items-center">
             <Sparkles className="size-4 lg:size-8 text-primary mr-2" />
